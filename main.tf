@@ -84,11 +84,11 @@ resource "aws_instance" "docker_node" {
   }
 
   provisioner "local-exec" {
-    command = templatefile("${var.host_os}-ssh-config.tpl", {
+    command = templatefile("linux-ssh-config.tpl", {
       hostname     = self.public_ip,
       user         = "ubuntu"
       identityfile = "~/.ssh/mtckey"
     })
-    interpreter = var.host_os == "windows" ? ["Powershell", "-Command"] : ["bash", "-c"]
+    interpreter = ["bash", "-c"]
   }
 }

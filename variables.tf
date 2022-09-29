@@ -8,11 +8,6 @@ variable "user_data" {
   description = "user data template"
 }
 
-variable "host_os" {
-  type        = string
-  description = "host operating system"
-}
-
 variable "access_key" {
   type        = string
   description = "aws access key"

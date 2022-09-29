@@ -8,7 +8,6 @@ pipeline {
     string(name: 'WORKSPACE', defaultValue: 'development', description: 'Setting up workspace for terraform')
     string(name: 'IP_ADDRESS', defaultValue: '180.191.190.235', description: 'Local Machine IP Address')
     string(name: 'USERDATA_TPL', defaultValue: 'docker_userdata.tpl', description: 'User Data Template')
-    string(name: 'HOST_OS', defaultValue: 'linux', description: 'Host Operating System')
   }
   environment {
     TF_HOME = tool('terraform-1.3.1')
@@ -28,7 +27,6 @@ pipeline {
         sh "terraform init -input=false -no-color"
         sh "echo \$PWD"
         sh "whoami"
-
       }
     }
     stage('Terraform Format') {
@@ -49,7 +47,7 @@ pipeline {
           } catch (err) {
             sh "terraform workspace select ${params.WORKSPACE} -no-color"
           }
-          sh "terraform plan -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}' \
+          sh "terraform plan -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' \
 			-out terraform.tfplan;echo \$? > status"
           stash name: "terraform-plan", includes: "terraform.tfplan"
         }
@@ -69,7 +67,7 @@ pipeline {
             }
             if (destroy) {
               unstash "terraform-plan"
-              sh "terraform destroy -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}' -auto-approve"
+              sh "terraform destroy -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -auto-approve"
             }
           } else {
             def apply = false
