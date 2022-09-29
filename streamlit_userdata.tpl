@@ -1,4 +1,8 @@
 #!/bin/bash
+sudo apt-get update -y &&
+sudo apt-get install -y \
+python3.8 \
+python3-pip
 git clone https://github.com/daerco22/futures-dashboard.git
 sudo bash -c 'cd /futures-dashboard'
 sudo bash -c 'pip install -r requirements.txt'
