@@ -5,8 +5,8 @@ pipeline {
   }
   parameters {
     string(name: 'WORKSPACE', defaultValue: 'development', description:'setting up workspace for terraform')
-	string(name: 'IP_ADDRESS', description:'Local Machine IP Address')
-	string(name: 'USERDATA_TPL', description:'User Data Template')
+	string(name: 'IP_ADDRESS', defaultValue: '180.191.190.235', description:'Local Machine IP Address')
+	string(name: 'USERDATA_TPL', defaultValue: 'docker_userdata.tpl', description:'User Data Template')
 	string(name: 'HOST_OS', defaultValue: 'linux', description:'Host Operating System')
   }
   environment {
