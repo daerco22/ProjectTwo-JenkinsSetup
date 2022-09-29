@@ -7,6 +7,7 @@ pipeline {
     string(name: 'WORKSPACE', defaultValue: 'development', description:'setting up workspace for terraform')
 	string(name: 'IP ADDRESS', description:'Local Machine IP Address')
 	string(name: 'USERDATA TPL', description:'User Data Template')
+	string(name: 'HOST OS', description:'Host Operating System')
   }
   environment {
     TF_HOME = tool('terraform')
@@ -21,9 +22,11 @@ pipeline {
         checkout scm
       }
     }
-    stage('terraform') {
+    stage('TerraformInit') {
       steps {
-        sh './terraformw apply -auto-approve -no-color'
+        sh 'terraform --version'
+		sh "echo \$PWD"
+		sh "whoami"
       }
     }
   }
