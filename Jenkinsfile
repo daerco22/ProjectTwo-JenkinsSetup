@@ -43,11 +43,11 @@ pipeline {
 	  steps {
 		script {
 			try {
-				sh "terraform workspace new ${params.WORKSPACE}"
+				sh "terraform workspace new ${params.WORKSPACE} -no-color"
 			} catch (err) {
-				sh "terraform workspace select ${params.WORKSPACE}"
+				sh "terraform workspace select ${params.WORKSPACE} -no-color"
 			}
-			sh "terraform plan -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}' \
+			sh "terraform plan -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}' \
 			-out terraform.tfplan;echo \$? > status"
 			stash name: "terraform-plan", includes: "terraform.tfplan"
 		}
