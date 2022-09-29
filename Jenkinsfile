@@ -17,14 +17,14 @@ pipeline {
     SECRET_KEY = credentials('AWS_SECRET_ACCESS_KEY')
   }
   stages{
-    stage('checkout') {
+    stage('Checkout') {
       steps {
         checkout scm
       }
     }
     stage('TerraformInit') {
       steps {
-        sh 'terraform init -input=false'
+        sh "terraform init -input=false -no-color"
 		sh "echo \$PWD"
 		sh "whoami"
       }
