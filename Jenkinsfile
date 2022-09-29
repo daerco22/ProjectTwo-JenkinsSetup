@@ -69,7 +69,7 @@ pipeline {
             }
             if (destroy) {
               unstash "terraform-plan"
-              sh "terraform destroy -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}'"
+              sh "terraform destroy -no-color -var 'access_key=$ACCESS_KEY' -var 'secret_key=$SECRET_KEY' -var 'local_ip=${params.IP_ADDRESS}' -var 'user_data=${params.USERDATA_TPL}' -var 'host_os=${params.HOST_OS}' -auto-approve"
             }
           } else {
             def apply = false
