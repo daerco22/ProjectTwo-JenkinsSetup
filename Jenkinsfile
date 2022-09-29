@@ -23,13 +23,6 @@ pipeline {
         checkout scm
       }
     }
-    stage('Terraform Init') {
-      steps {
-        sh "terraform init -input=false -no-color"
-        sh "echo \$PWD"
-        sh "whoami"
-      }
-    }
     stage('Terraform Format') {
       steps {
         sh "terraform fmt -list=true -write=false -diff=true -check=true"
