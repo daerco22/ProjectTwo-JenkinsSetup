@@ -10,7 +10,7 @@ pipeline {
 	string(name: 'HOST OS', description:'Host Operating System')
   }
   environment {
-    TF_HOME = tool('terraform')
+    TF_HOME = tool('terraform-1.3.1')
     TP_LOG = "WARN"
     PATH = "$TF_HOME:$PATH"
     ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
