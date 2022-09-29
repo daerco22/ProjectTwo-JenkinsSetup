@@ -1,8 +1,7 @@
 pipeline {
   agent any
   tools {
-    "org.jenkinsci.plugins.terraform.TerraformInstallation"
-    "terraform-1.3.1"
+    "org.jenkinsci.plugins.terraform.TerraformInstallation" "terraform-1.3.1"
   }
   parameters {
     choice(name: 'ACTION', choices: ['', 'apply', 'destroy'], description: 'Actions: will run terraform apply or terraform destroy')
