@@ -5,7 +5,8 @@ pipeline {
     "terraform-1.3.1"
   }
   parameters {
-    string(name: 'WORKSPACE', defaultValue: 'development', description: 'setting up workspace for terraform')
+    choice(name: 'ACTION', choices: ['', 'apply', 'destroy'], description: 'Actions: will run terraform apply or terraform destroy')
+    string(name: 'WORKSPACE', defaultValue: 'development', description: 'Setting up workspace for terraform')
     string(name: 'IP_ADDRESS', defaultValue: '180.191.190.235', description: 'Local Machine IP Address')
     string(name: 'USERDATA_TPL', defaultValue: 'docker_userdata.tpl', description: 'User Data Template')
     string(name: 'HOST_OS', defaultValue: 'linux', description: 'Host Operating System')
@@ -23,24 +24,24 @@ pipeline {
         checkout scm
       }
     }
-    stage('TerraformInit') {
+    stage('Terraform Init') {
       steps {
         sh "terraform init -input=false -no-color"
         sh "echo \$PWD"
         sh "whoami"
       }
     }
-    stage('TerraformFormat') {
+    stage('Terraform Format') {
       steps {
         sh "terraform fmt -list=true -write=false -diff=true -check=true"
       }
     }
-    stage('TerraformValidate') {
+    stage('Terraform Validate') {
       steps {
         sh "terraform validate -no-color"
       }
     }
-    stage('TerraformPlan') {
+    stage('Terraform Plan') {
       steps {
         script {
           try {
@@ -54,20 +55,35 @@ pipeline {
         }
       }
     }
-    stage('TerraformApply') {
+    stage('Terraform Apply or Destroy') {
       steps {
         script {
-          def apply = false
-          try {
-            input message: 'Can you please confirm the apply', ok: 'Ready to Apply the Config'
-            apply = true
-          } catch (err) {
-            apply = false
-            currentBuild.result = 'UNSTABLE'
-          }
-          if (apply) {
-            unstash "terraform-plan"
-            sh 'terraform apply terraform.tfplan -no-color'
+          if (params.ACTION == "destroy") {
+            def destroy = false
+            try {
+              input message: 'Can you please confirm the destroy', ok: 'Ready to Destroy the Config'
+              destroy = true
+            } catch (err) {
+              destroy = false
+              currentBuild.result = 'UNSTABLE'
+            }
+            if (destroy) {
+              unstash "terraform-plan"
+              sh 'terraform destroy terraform.tfplan -no-color'
+            }
+          } else {
+            def apply = false
+            try {
+              input message: 'Can you please confirm the apply', ok: 'Ready to Apply the Config'
+              apply = true
+            } catch (err) {
+              apply = false
+              currentBuild.result = 'UNSTABLE'
+            }
+            if (apply) {
+              unstash "terraform-plan"
+              sh 'terraform apply terraform.tfplan -no-color'
+            }
           }
         }
       }
