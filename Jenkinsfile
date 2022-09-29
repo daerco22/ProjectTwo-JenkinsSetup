@@ -6,7 +6,7 @@ pipeline {
   parameters {
     choice(name: 'ACTION', choices: ['', 'apply', 'destroy'], description: 'Actions: will run terraform apply or terraform destroy')
     string(name: 'WORKSPACE', defaultValue: 'development', description: 'Setting up workspace for terraform')
-    string(name: 'IP_ADDRESS', defaultValue: '180.191.190.235', description: 'Local Machine IP Address')
+    string(name: 'IP_ADDRESS', description: 'Local Machine IP Address')
     string(name: 'USERDATA_TPL', defaultValue: 'docker_userdata.tpl', description: 'User Data Template')
   }
   environment {
