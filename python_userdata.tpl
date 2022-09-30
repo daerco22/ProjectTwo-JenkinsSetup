@@ -16,6 +16,4 @@ pip install streamlit-authenticator
 pip install bs4
 echo "api_key = ${api_key}" >> /futures-dashboard/.env
 echo "api_secret = ${api_secret}" >> /futures-dashboard/.env
-sudo yum install tmux
-tmux new -s st_instance
 streamlit run 1_📈_Dashboard.py &
