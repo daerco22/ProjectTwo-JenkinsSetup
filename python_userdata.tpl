@@ -1,6 +1,7 @@
 #!/bin/bash
 sudo apt-get update -y
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y python3.8 python3-pip
+sudo apt-get install -y python3.8
+sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install python3-pip
 git clone https://github.com/daerco22/futures-dashboard.git
 cd /futures-dashboard
 pip install streamlit
