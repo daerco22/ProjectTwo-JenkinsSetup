@@ -23,7 +23,7 @@ data "template_file" "init" {
   template = file(var.user_data)
 
   vars = {
-    api_key    = "${locals.env_dot.api_key}"
-    api_secret = "${locals.env_dot.api_secret}"
+    api_key    = "${local.env_dot.api_key}"
+    api_secret = "${local.env_dot.api_secret}"
   }
 }
